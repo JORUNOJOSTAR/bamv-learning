@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -91,6 +88,25 @@ public class MicropostsController {
         model.addAttribute("page", page);
 
         return "myprofile";
+    }
+
+    @GetMapping("/otherprofile/{userId}")
+    String otherprofile(Model model, @PathVariable String userId, @RequestParam(name = "page", defaultValue = "1") int page) {
+
+        /* Model ⇔ Controller */
+        UserDto user = userService.findUser(userId); // ユーザー情報
+        List<MicropostDto> followsMicropostList = micropostService.searchUserMicropost(userId, page); // ユーザーのマイクロポスト
+        int followNumber = followService.findFollowNumber(userId); // ユーザーのフォロー数
+        int followerNumber = followService.findFollowerNumber(userId); // ユーザーのフォロワー数
+
+        /* View ⇔ Controller */
+        model.addAttribute("userName", user.getName());
+        model.addAttribute("followNumber", followNumber);
+        model.addAttribute("followerNumber", followerNumber);
+        model.addAttribute("followsMicropostList", followsMicropostList);
+        model.addAttribute("page", page);
+
+        return "otherprofile";
     }
 
     @GetMapping("/signup")

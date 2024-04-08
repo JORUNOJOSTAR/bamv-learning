@@ -75,7 +75,9 @@
                     <div class="col-md-10">
                         <div class="card-body">
                             <h5 class="card-title">
-                                <span th:text="${followsMicropost.name}"></span>
+                                <a th:href="@{/otherprofile/{userId}(userId=${followsMicropost.userId})}">
+                                    <span th:text="${followsMicropost.name}"></span>
+                                </a>
                             </h5>
                             <p class="card-text" th:text="${followsMicropost.content}">
                             </p>

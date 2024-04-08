@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title th:text="${myUserName}"></title>
+    <title th:text="${userName}"></title>
 </head>
 <body>
 <span th:replace="~{header :: header}"></span>
@@ -23,43 +23,19 @@
                         </div>
                         <div class="col-md-8">
                             <div>
-                                <h5 th:text="${myUserName}"></h5>
-                                <p><a href="./myprofile">マイプロフィール</a></p>
-                                <p><span th:text="${myMicropostsNumber}"></span><small class="text-muted">
-                                    投稿</small></p>
+                                <h5 th:text="${userName}"></h5>
                                 <span
-                                ><span th:text="${myFollowNumber}"></span
+                                ><span th:text="${followNumber}"></span
                                 ><small class="text-muted">フォロー</small></span
                                 >
                                 <span
-                                ><span th:text="${myFollowerNumber}"></span
+                                ><span th:text="${followerNumber}"></span
                                 ><small class="text-muted">フォロワー</small></span
                                 >
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <section>
-                <form th:action="@{/postnewmicropost}" th:object="${micropostForm}" method="post">
-                    <div class="mb-3">
-                        <div class="alert alert-danger" th:if="${#fields.hasErrors()}" th:text="バリデーションエラーが発生しました。"></div>
-                <textarea
-                        id="content"
-                        name="content"
-                        th:field="*{content}"
-                        placeholder="新規投稿"
-                        rows="5"
-                        cols="33"
-                        class="form-control"
-                ></textarea>
-                    </div>
-                    <input
-                            type="submit"
-                            class="btn btn-primary w-100"
-                    />
-                </form>
             </section>
         </aside>
 
@@ -75,9 +51,7 @@
                     <div class="col-md-10">
                         <div class="card-body">
                             <h5 class="card-title">
-                                <a th:href="@{/otherprofile/{userId}(userId=${followsMicropost.userId})}">
-                                    <span th:text="${followsMicropost.name}"></span>
-                                </a>
+                                <span th:text="${followsMicropost.name}"></span>
                             </h5>
                             <p class="card-text" th:text="${followsMicropost.content}">
                             </p>
@@ -98,21 +72,20 @@
                 <ul class="pagination">
                     <li class="page-item">
                         <th:block th:if="${page - 1} > 0">
-                            <a class="page-link" th:href="@{micropostshome?page={page}(page=${page - 1})}">前へ</a>
+                            <a class="page-link" th:href="@{/otherprofile/{userId}(userId=${userId}, page=${page - 1})}">前へ</a>
                         </th:block>
                         <th:block th:if="${page - 1} <= 0">
                             <a class="page-link" href="#">前へ</a>
                         </th:block>
                     </li>
-                    <li class="page-item"><a class="page-link" th:href="@{micropostshome?page={page}(page=${page})}"
+                    <li class="page-item"><a class="page-link" th:href="@{/otherprofile/{userId}(userId=${userId}, page=${page})}"
                                              th:text="${page}"></a></li>
-                    <li class="page-item"><a class="page-link"
-                                             th:href="@{micropostshome?page={page}(page=${page + 1 })}"
+                    <li class="page-item"><a class="page-link" th:href="@{/otherprofile/{userId}(userId=${userId}, page=${page + 1 })}"
                                              th:text="${page + 1}"></a></li>
-                    <li class="page-item"><a class="page-link" th:href="@{micropostshome?page={page}(page=${page + 2})}"
+                    <li class="page-item"><a class="page-link" th:href="@{/otherprofile/{userId}(userId=${userId}, page=${page + 2})}"
                                              th:text="${page + 2}"></a></li>
                     <li class="page-item">
-                        <a class="page-link" th:href="@{micropostshome?page={page}(page=${page + 1})}">次へ</a>
+                        <a class="page-link" th:href="@{/otherprofile/{userId}(userId=${userId}, page=${page + 1})}">次へ</a>
                     </li>
                 </ul>
             </nav>
