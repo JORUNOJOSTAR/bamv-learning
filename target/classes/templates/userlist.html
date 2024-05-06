@@ -44,15 +44,16 @@
             <h3>ユーザ一覧</h3>
             <div class="card mb-3" th:each="user : ${userlist}">
                 <div class="row g-0">
-                    <div
-                            class="col-md-4 d-flex align-items-center justify-content-center"
-                    >
+                    <div class="col-md-2 d-flex align-items-center justify-content-center">
                         <span style="font-size: 100px" class="material-icons">person</span>
                     </div>
-                    <div class="col-md-8">
-                        <div>
-                            <h5 th:text="${user.name}"></h5>
-                            <span
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <span th:text="${user.name}"></span>
+                            </h5>
+                            <p class="card-text">
+                                <span
                             ><span th:text="${user.follow}"></span
                             ><small class="text-muted">フォロー</small></span
                             >
@@ -60,6 +61,7 @@
                             ><span th:text="${user.follower}"></span
                             ><small class="text-muted">フォロワー</small></span
                             >
+                            </p>
                             <form action="/followStatus">
                                 <button class="btn" th:classappend="${user.status == 0} ? 'btn-primary' : 'btn-danger'">
                                     <span th:text="${user.status == 0} ? 'follow' : 'unfollow'"></span>
