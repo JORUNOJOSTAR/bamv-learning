@@ -3,6 +3,7 @@ package bamv.training.microposts.controller;
 import bamv.training.microposts.dao.UserListDao;
 import bamv.training.microposts.dto.MicropostDto;
 import bamv.training.microposts.dto.UserDto;
+import bamv.training.microposts.entity.TFollow;
 import bamv.training.microposts.form.MicropostForm;
 import bamv.training.microposts.form.UserForm;
 import bamv.training.microposts.service.FollowService;
@@ -35,7 +36,7 @@ public class MicropostsController {
     @Autowired
     private UserListDao userListDao;
 
-    public record userlistItem(String id,String name,int follow,int follower,int status){}
+    
 
     @GetMapping("/micropostshome")
     String micropostshome(Model model, @ModelAttribute MicropostForm micropostForm, BindingResult bindingResult, HttpServletRequest httpServletRequest, @RequestParam(name = "page", defaultValue = "1") int page) {
@@ -132,4 +133,16 @@ public class MicropostsController {
         model.addAttribute("page", page);
         return "userlist";
     }
+
+    @GetMapping("/followStatus")
+    public String followStatus(HttpServletRequest httpServletRequest,
+                               @RequestParam("id") String id,
+                               @RequestParam("status") String status,
+                               @RequestParam("page") String page) {
+        /* ユーザー認証情報からユーザIDを取得 */
+        String userId = httpServletRequest.getRemoteUser();
+        userListDao.followAction(userId,id,status);
+        return "redirect:/userlist?page="+page;
+    }
+    
 }
